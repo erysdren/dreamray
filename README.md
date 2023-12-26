@@ -1,5 +1,5 @@
 
-![DREAMRAY ENGINE, BY ERYSDREN](./.github/dreamray_logo_big.png "DREAMRAY ENGINE")
+![DREAMRAY ENGINE, BY ERYSDREN](./.github/screenshot.png "DREAMRAY ENGINE")
 
 raycaster game engine
 
