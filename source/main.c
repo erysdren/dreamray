@@ -54,28 +54,10 @@ static SDL_Event event;
 static SDL_Surface *palette = NULL;
 static SDL_Surface *colormap = NULL;
 static SDL_Surface *logo = NULL;
-static SDL_Rect logo_rect;
 static SDL_Surface *background = NULL;
 
-static void button_play(void *user)
+void quit(int code)
 {
-	EUI_UNUSED(user);
-}
-
-static void button_editor(void *user)
-{
-	EUI_UNUSED(user);
-}
-
-static void button_options(void *user)
-{
-	EUI_UNUSED(user);
-}
-
-static void button_quit(void *user)
-{
-	EUI_UNUSED(user);
-
 	eui_quit();
 
 	if (logo) SDL_FreeSurface(logo);
@@ -89,7 +71,7 @@ static void button_quit(void *user)
 	if (window) SDL_DestroyWindow(window);
 	SDL_Quit();
 
-	exit(0);
+	exit(code);
 }
 
 static void load_graphics(void)
@@ -159,10 +141,6 @@ int main(int argc, char **argv)
 	SDL_RenderPresent(renderer);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
-	/* resize window */
-	SDL_SetWindowSize(window, DREAMRAY_WIDTH * 2, DREAMRAY_HEIGHT * 2);
-	SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-
 	/* create our render surface */
 	surface8 = SDL_CreateRGBSurface(0, DREAMRAY_WIDTH, DREAMRAY_HEIGHT, 8, 0, 0, 0, 0);
 	SDL_FillRect(surface8, NULL, 0x00);
@@ -191,16 +169,6 @@ int main(int argc, char **argv)
 	/* init eui */
 	eui_init(surface8->w, surface8->h, surface8->format->BitsPerPixel, surface8->pitch, surface8->pixels);
 
-	/* add background */
-	SDL_BlitSurface(background, &rect, surface8, &rect);
-
-	/* add logo */
-	logo_rect.x = (surface8->w / 2) - (logo->w / 2);
-	logo_rect.y = 8;
-	logo_rect.w = logo->w;
-	logo_rect.h = logo->h;
-	SDL_BlitSurface(logo, NULL, surface8, &logo_rect);
-
 	/* main loop */
 	while (!SDL_QuitRequested())
 	{
@@ -211,18 +179,19 @@ int main(int argc, char **argv)
 		/* process events */
 		eui_event_queue_process();
 
-		/* run eui */
-		if (eui_context_begin())
+		switch (gamestate)
 		{
-			eui_frame_align_set(EUI_ALIGN_MIDDLE, EUI_ALIGN_MIDDLE);
+			case STATE_CONSOLE:
+				console_main();
+				break;
 
-			eui_widget_button(0, -48, 80, 16, "Play", button_play, NULL);
-			eui_widget_button(0, -24, 80, 16, "Editor", button_editor, NULL);
-			eui_widget_button(0, 0, 80, 16, "Options", button_options, NULL);
-			eui_widget_button(0, 24, 80, 16, "Quit", button_quit, NULL);
+			case STATE_MENU:
+				menu_main();
+				break;
 
-			/* end eui context */
-			eui_context_end();
+			case STATE_GAME:
+				game_main();
+				break;
 		}
 
 		/* copy to screen */
@@ -234,7 +203,6 @@ int main(int argc, char **argv)
 	}
 
 	/* quit */
-	button_quit(NULL);
-
+	quit(0);
 	return 0;
 }

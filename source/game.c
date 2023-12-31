@@ -22,56 +22,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
-#ifndef _DREAMRAY_H_
-#define _DREAMRAY_H_
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*
  *
- * macros
+ * GAME.C
  *
  */
 
-#define DREAMRAY_WIDTH (640)
-#define DREAMRAY_HEIGHT (480)
-#define DREAMRAY_TITLE "DREAMRAY"
+#include <stdio.h>
 
-/*
- *
- * enums
- *
- */
+#include "SDL.h"
+#include "eui.h"
+#include "eui_evnt.h"
+#include "eui_sdl2.h"
+#include "eui_widg.h"
+#include "dreamray.h"
 
-enum {
-	STATE_CONSOLE,
-	STATE_MENU,
-	STATE_GAME
-};
+void game_main(void)
+{
 
-/*
- *
- * globals
- *
- */
-
-extern int gamestate;
-
-/*
- *
- * public functions
- *
- */
-
-void quit(int code);
-
-void console_main(void);
-void menu_main(void);
-void game_main(void);
-
-#ifdef __cplusplus
 }
-#endif
-#endif /* _DREAMRAY_H_ */

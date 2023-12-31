@@ -22,56 +22,55 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
-#ifndef _DREAMRAY_H_
-#define _DREAMRAY_H_
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*
  *
- * macros
+ * MENU.C
  *
  */
 
-#define DREAMRAY_WIDTH (640)
-#define DREAMRAY_HEIGHT (480)
-#define DREAMRAY_TITLE "DREAMRAY"
+#include <stdio.h>
 
-/*
- *
- * enums
- *
- */
+#include "SDL.h"
+#include "eui.h"
+#include "eui_evnt.h"
+#include "eui_sdl2.h"
+#include "eui_widg.h"
+#include "dreamray.h"
 
-enum {
-	STATE_CONSOLE,
-	STATE_MENU,
-	STATE_GAME
-};
-
-/*
- *
- * globals
- *
- */
-
-extern int gamestate;
-
-/*
- *
- * public functions
- *
- */
-
-void quit(int code);
-
-void console_main(void);
-void menu_main(void);
-void game_main(void);
-
-#ifdef __cplusplus
+static void button_play(void *user)
+{
+	EUI_UNUSED(user);
 }
-#endif
-#endif /* _DREAMRAY_H_ */
+
+static void button_editor(void *user)
+{
+	EUI_UNUSED(user);
+}
+
+static void button_options(void *user)
+{
+	EUI_UNUSED(user);
+}
+
+static void button_quit(void *user)
+{
+	EUI_UNUSED(user);
+	quit(0);
+}
+
+void menu_main(void)
+{
+	/* run eui */
+	if (eui_context_begin())
+	{
+		eui_frame_align_set(EUI_ALIGN_MIDDLE, EUI_ALIGN_MIDDLE);
+
+		eui_widget_button(0, -48, 80, 16, "Play", button_play, NULL);
+		eui_widget_button(0, -24, 80, 16, "Editor", button_editor, NULL);
+		eui_widget_button(0, 0, 80, 16, "Options", button_options, NULL);
+		eui_widget_button(0, 24, 80, 16, "Quit", button_quit, NULL);
+
+		/* end eui context */
+		eui_context_end();
+	}
+}
