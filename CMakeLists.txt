@@ -13,7 +13,6 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/external/sdl2-cmake-modules
 
 # sdl2
 find_package(SDL2 REQUIRED)
-find_package(SDL2_image REQUIRED)
 
 # eui
 option(EUI_BUILD_EXAMPLES "Build Example Applications" OFF)
@@ -25,9 +24,8 @@ find_library(LIBMATH "m")
 
 # executable
 add_executable(dreamray
-	${PROJECT_SOURCE_DIR}/source/main.c
-	${PROJECT_SOURCE_DIR}/source/ray.c)
-target_link_libraries(dreamray PUBLIC SDL2::Main SDL2::Image ${LIBMATH} eui_sdl2)
+	${PROJECT_SOURCE_DIR}/source/main.c)
+target_link_libraries(dreamray PUBLIC SDL2::Main ${LIBMATH} eui_sdl2)
 add_custom_target(dreamray_copy_assets
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/gfx ${PROJECT_BINARY_DIR}/gfx)
 add_dependencies(dreamray dreamray_copy_assets)
