@@ -1,0 +1,6 @@
+[submodule "external/eui"]
+	path = external/eui
+	url = https://github.com/erysdren/eui
+[submodule "external/sdl2-cmake-modules"]
+	path = external/sdl2-cmake-modules
+	url = https://github.com/aminosbh/sdl2-cmake-modules
