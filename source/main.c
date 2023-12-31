@@ -89,7 +89,10 @@ int main(int argc, char **argv)
 	/* load palette */
 	palette = SDL_LoadBMP("gfx/palette.bmp");
 	if (palette == NULL)
+	{
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to load \"gfx/palette.bmp\"", window);
 		return 1;
+	}
 
 	/* install palette */
 	SDL_SetPaletteColors(surface8->format->palette, palette->format->palette->colors, 0, 256);
