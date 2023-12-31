@@ -57,7 +57,12 @@ static SDL_Surface *logo = NULL;
 static SDL_Rect logo_rect;
 static SDL_Surface *background = NULL;
 
-static void button_start(void *user)
+static void button_play(void *user)
+{
+	EUI_UNUSED(user);
+}
+
+static void button_editor(void *user)
 {
 	EUI_UNUSED(user);
 }
@@ -85,11 +90,6 @@ static void button_quit(void *user)
 	SDL_Quit();
 
 	exit(0);
-}
-
-static void menu_main(void)
-{
-
 }
 
 static void load_graphics(void)
@@ -216,7 +216,8 @@ int main(int argc, char **argv)
 		{
 			eui_frame_align_set(EUI_ALIGN_MIDDLE, EUI_ALIGN_MIDDLE);
 
-			eui_widget_button(0, -24, 80, 16, "Start", button_start, NULL);
+			eui_widget_button(0, -48, 80, 16, "Play", button_play, NULL);
+			eui_widget_button(0, -24, 80, 16, "Editor", button_editor, NULL);
 			eui_widget_button(0, 0, 80, 16, "Options", button_options, NULL);
 			eui_widget_button(0, 24, 80, 16, "Quit", button_quit, NULL);
 
