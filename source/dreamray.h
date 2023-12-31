@@ -35,8 +35,8 @@ extern "C" {
  *
  */
 
-#define DREAMRAY_WIDTH (640)
-#define DREAMRAY_HEIGHT (480)
+#define DREAMRAY_WIDTH (320)
+#define DREAMRAY_HEIGHT (240)
 #define DREAMRAY_TITLE "DREAMRAY"
 
 /*
