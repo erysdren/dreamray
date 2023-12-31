@@ -47,7 +47,6 @@ void console_main(void)
 		switch (key)
 		{
 			case EUI_SCANCODE_ESCAPE:
-			case EUI_SCANCODE_TILDE:
 				gamestate = GAMESTATE_MENU;
 				break;
 		}
