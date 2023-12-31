@@ -53,15 +53,11 @@ static SDL_Event event;
 
 static SDL_Surface *palette = NULL;
 static SDL_Surface *colormap = NULL;
-static SDL_Surface *logo = NULL;
-static SDL_Surface *background = NULL;
 
 void quit(int code)
 {
 	eui_quit();
 
-	if (logo) SDL_FreeSurface(logo);
-	if (background) SDL_FreeSurface(background);
 	if (colormap) SDL_FreeSurface(colormap);
 	if (palette) SDL_FreeSurface(palette);
 	if (surface8) SDL_FreeSurface(surface8);
@@ -74,42 +70,25 @@ void quit(int code)
 	exit(code);
 }
 
+void error_load(char *filename)
+{
+	static char message[256];
+	snprintf(message, 256, "Failed to load \"%s\"", filename);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", message, window);
+	quit(1);
+}
+
 static void load_graphics(void)
 {
 	/* load palette */
 	palette = SDL_LoadBMP("gfx/palette.bmp");
 	if (palette == NULL)
-	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to load \"gfx/palette.bmp\"", window);
-		exit(1);
-	}
+		error_load("gfx/palette.bmp");
 
 	/* load colormap */
 	colormap = SDL_LoadBMP("gfx/colormap.bmp");
 	if (colormap == NULL)
-	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to load \"gfx/colormap.bmp\"", window);
-		exit(1);
-	}
-
-	/* load logo */
-	logo = SDL_LoadBMP("gfx/logo.bmp");
-	if (logo == NULL)
-	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to load \"gfx/logo.bmp\"", window);
-		exit(1);
-	}
-
-	/* add logo color key */
-	SDL_SetColorKey(logo, SDL_TRUE, 0xFF);
-
-	/* load background */
-	background = SDL_LoadBMP("gfx/background.bmp");
-	if (background == NULL)
-	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to load \"gfx/background.bmp\"", window);
-		exit(1);
-	}
+		error_load("gfx/colormap.bmp");
 }
 
 /* main */

@@ -67,6 +67,8 @@ extern int gamestate;
 
 void quit(int code);
 
+void error_load(char *filename);
+
 void console_main(void);
 void menu_main(void);
 void game_main(void);
