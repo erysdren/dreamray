@@ -50,6 +50,7 @@ static SDL_Rect rect;
 static SDL_Event event;
 
 static SDL_Surface *palette;
+static SDL_Surface *colormap;
 
 /* main */
 int main(int argc, char **argv)
@@ -97,6 +98,14 @@ int main(int argc, char **argv)
 	/* install palette */
 	SDL_SetPaletteColors(surface8->format->palette, palette->format->palette->colors, 0, 256);
 
+	/* load colormap */
+	colormap = SDL_LoadBMP("gfx/colormap.bmp");
+	if (colormap == NULL)
+	{
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to load \"gfx/colormap.bmp\"", window);
+		return 1;
+	}
+
 	/* create display surface */
 	format = SDL_GetWindowPixelFormat(window);
 	SDL_PixelFormatEnumToMasks(format, &bpp, &rmask, &gmask, &bmask, &amask);
@@ -127,6 +136,8 @@ int main(int argc, char **argv)
 	}
 
 	/* quit */
+	SDL_FreeSurface(colormap);
+	SDL_FreeSurface(palette);
 	SDL_FreeSurface(surface8);
 	SDL_FreeSurface(surface32);
 	SDL_DestroyTexture(texture);
