@@ -29,18 +29,17 @@ SOFTWARE.
  */
 
 #include <stdio.h>
-#include <stdbool.h>
-#include <stdint.h>
 
 #include "SDL.h"
-
 #include "eui_sdl2.h"
+#include "dreamray.h"
 
-#define WIDTH (640)
-#define HEIGHT (480)
-#define TITLE "DREAMRAY"
+/*
+ *
+ * state
+ *
+ */
 
-/* SDL2 state */
 static SDL_Window *window;
 static SDL_Surface *surface8;
 static SDL_Surface *surface32;
@@ -55,10 +54,8 @@ static SDL_Surface *colormap;
 /* main */
 int main(int argc, char **argv)
 {
-	uint32_t format;
-	unsigned int rmask, gmask, bmask, amask;
-	int bpp;
-	int i;
+	unsigned int format, rmask, gmask, bmask, amask;
+	int bpp, i;
 
 	EUI_UNUSED(argc);
 	EUI_UNUSED(argv);
@@ -67,24 +64,24 @@ int main(int argc, char **argv)
 	SDL_Init(SDL_INIT_VIDEO);
 
 	/* create window */
-	window = SDL_CreateWindow(TITLE,
+	window = SDL_CreateWindow(DREAMRAY_TITLE,
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		WIDTH, HEIGHT,
+		DREAMRAY_WIDTH, DREAMRAY_HEIGHT,
 		SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
 	);
 
 	/* create renderer */
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
-	SDL_RenderSetLogicalSize(renderer, WIDTH, HEIGHT);
+	SDL_RenderSetLogicalSize(renderer, DREAMRAY_WIDTH, DREAMRAY_HEIGHT);
 	SDL_RenderSetIntegerScale(renderer, SDL_TRUE);
-	SDL_SetWindowMinimumSize(window, WIDTH, HEIGHT);
+	SDL_SetWindowMinimumSize(window, DREAMRAY_WIDTH, DREAMRAY_HEIGHT);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
 	/* create our render surface */
-	surface8 = SDL_CreateRGBSurface(0, WIDTH, HEIGHT, 8, 0, 0, 0, 0);
+	surface8 = SDL_CreateRGBSurface(0, DREAMRAY_WIDTH, DREAMRAY_HEIGHT, 8, 0, 0, 0, 0);
 	SDL_FillRect(surface8, NULL, 0);
 
 	/* load palette */
@@ -109,8 +106,8 @@ int main(int argc, char **argv)
 	/* create display surface */
 	format = SDL_GetWindowPixelFormat(window);
 	SDL_PixelFormatEnumToMasks(format, &bpp, &rmask, &gmask, &bmask, &amask);
-	surface32 = SDL_CreateRGBSurface(0, WIDTH, HEIGHT, bpp, rmask, gmask, bmask, amask);
-	texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
+	surface32 = SDL_CreateRGBSurface(0, DREAMRAY_WIDTH, DREAMRAY_HEIGHT, bpp, rmask, gmask, bmask, amask);
+	texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, DREAMRAY_WIDTH, DREAMRAY_HEIGHT);
 
 	/* make sure relative mouse mode is disabled */
 	SDL_SetRelativeMouseMode(SDL_FALSE);
@@ -118,8 +115,8 @@ int main(int argc, char **argv)
 	/* setup blit rect */
 	rect.x = 0;
 	rect.y = 0;
-	rect.w = WIDTH;
-	rect.h = HEIGHT;
+	rect.w = DREAMRAY_WIDTH;
+	rect.h = DREAMRAY_HEIGHT;
 
 	/* main loop */
 	while (!SDL_QuitRequested())
