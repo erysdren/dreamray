@@ -11,14 +11,14 @@ set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/external/sdl2-cmake-modules")
 
+# sdl2
+find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+
 # eui
 option(EUI_BUILD_EXAMPLES "Build Example Applications" OFF)
 option(EUI_INSTALL_TARGET "Enable Install Target" OFF)
 add_subdirectory(${PROJECT_SOURCE_DIR}/external/eui)
-
-# sdl2
-find_package(SDL2 REQUIRED)
-find_package(SDL2_image REQUIRED)
 
 # libmath
 find_library(LIBMATH "m")
