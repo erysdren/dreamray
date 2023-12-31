@@ -158,17 +158,21 @@ int main(int argc, char **argv)
 		/* process events */
 		eui_event_queue_process();
 
+		/* clear screen */
+		SDL_FillRect(surface8, NULL, 0x00);
+
+		/* parse gamestate */
 		switch (gamestate)
 		{
-			case STATE_CONSOLE:
+			case GAMESTATE_CONSOLE:
 				console_main();
 				break;
 
-			case STATE_MENU:
+			case GAMESTATE_MENU:
 				menu_main();
 				break;
 
-			case STATE_GAME:
+			case GAMESTATE_GAME:
 				game_main();
 				break;
 		}

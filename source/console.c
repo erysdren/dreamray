@@ -39,5 +39,28 @@ SOFTWARE.
 
 void console_main(void)
 {
+	int key;
 
+	/* parse queued inputs */
+	while ((key = eui_key_pop()) >= 0)
+	{
+		switch (key)
+		{
+			case EUI_SCANCODE_ESCAPE:
+			case EUI_SCANCODE_TILDE:
+				gamestate = GAMESTATE_MENU;
+				break;
+		}
+	}
+
+	/* run eui */
+	if (eui_context_begin())
+	{
+		eui_frame_align_set(EUI_ALIGN_MIDDLE, EUI_ALIGN_MIDDLE);
+
+		eui_draw_text(0, 0, 0x0F, "CONSOLE");
+
+		/* end eui context */
+		eui_context_end();
+	}
 }

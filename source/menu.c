@@ -60,6 +60,19 @@ static void button_quit(void *user)
 
 void menu_main(void)
 {
+	int key;
+
+	/* parse queued inputs */
+	while ((key = eui_key_pop()) >= 0)
+	{
+		switch (key)
+		{
+			case EUI_SCANCODE_TILDE:
+				gamestate = GAMESTATE_CONSOLE;
+				break;
+		}
+	}
+
 	/* run eui */
 	if (eui_context_begin())
 	{

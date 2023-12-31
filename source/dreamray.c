@@ -43,4 +43,4 @@ SOFTWARE.
  *
  */
 
-int gamestate = STATE_CONSOLE;
+int gamestate = GAMESTATE_CONSOLE;
